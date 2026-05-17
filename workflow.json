@@ -1,0 +1,2736 @@
+{
+  "name": "RB2B - Deanonymization workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "rb2b-lead",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -1440,
+        -304
+      ],
+      "id": "29aa9e96-4edc-4458-ae71-4f6842477230",
+      "name": "Webhook",
+      "webhookId": "155a2833-2391-40f8-9a99-4e7bb2c880eb"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "cff8f9f8-7383-45eb-a653-2ea61b0bbef2",
+              "leftValue": "={{ $json.body['Business Email'] }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -1216,
+        -304
+      ],
+      "id": "9f723e99-6b06-4e29-82db-275d762c0e7c",
+      "name": "Lead Categorization"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "77779be2-7ef3-4d8b-a7a9-5f5ee777ffd2",
+              "name": "lead_type",
+              "value": "company",
+              "type": "string"
+            },
+            {
+              "id": "bcf406d5-4603-4c53-ab03-4a2f69a72a16",
+              "name": "linkedin_url",
+              "value": "={{ $('Webhook').item.json.body['LinkedIn URL'] }}",
+              "type": "string"
+            },
+            {
+              "id": "9178766e-fc4c-4045-af44-29689bb6347d",
+              "name": "company_name",
+              "value": "={{ $('Webhook').item.json.body['Company Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "f24ee111-0ee5-48b9-9428-e8ce26eeb570",
+              "name": "company_website",
+              "value": "={{ $json.body.Website }}",
+              "type": "string"
+            },
+            {
+              "id": "b505491c-5867-4860-b8eb-4fa7276ebb56",
+              "name": "industry",
+              "value": "={{ $('Webhook').item.json.body.Industry }}",
+              "type": "string"
+            },
+            {
+              "id": "e4636b0d-1ec0-4a22-a71e-434d8c05f585",
+              "name": "employee_count",
+              "value": "={{ $('Webhook').item.json.body['Employee Count'] }}",
+              "type": "string"
+            },
+            {
+              "id": "a63e9fb1-4145-4a79-8224-5dffbf1be064",
+              "name": "estimated_revenue",
+              "value": "={{ $('Webhook').item.json.body['Estimate Revenue'] }}",
+              "type": "string"
+            },
+            {
+              "id": "18ab8cfa-33d3-4755-9d26-76f95659f616",
+              "name": "city",
+              "value": "={{ $('Webhook').item.json.body.City }}",
+              "type": "string"
+            },
+            {
+              "id": "f1a8fd56-9e5a-4b81-86d9-6e8e10e9a1fb",
+              "name": "state",
+              "value": "={{ $('Webhook').item.json.body.State }}",
+              "type": "string"
+            },
+            {
+              "id": "48c3b1b1-9800-4b85-aad0-cbd75572f961",
+              "name": "zipcode",
+              "value": "={{ $('Webhook').item.json.body.Zipcode }}",
+              "type": "string"
+            },
+            {
+              "id": "5d58a9f0-3711-4872-bbf9-4a392f0bb5e4",
+              "name": "seen_at",
+              "value": "={{ $('Webhook').item.json.body['Seen At'] }}",
+              "type": "string"
+            },
+            {
+              "id": "4922e699-305b-4204-aaac-b96f684cd22c",
+              "name": "referrer",
+              "value": "={{ $('Webhook').item.json.body.Referrer }}",
+              "type": "string"
+            },
+            {
+              "id": "3cd25e39-7415-4434-91ba-95809495a821",
+              "name": "captured_url",
+              "value": "={{ $('Webhook').item.json.body['Captured URL'] }}",
+              "type": "string"
+            },
+            {
+              "id": "87825c84-9320-475f-a272-eaf972c13fa1",
+              "name": "tags",
+              "value": "={{ $('Webhook').item.json.body.Tags }}",
+              "type": "string"
+            },
+            {
+              "id": "0682ad7f-b674-43ae-ba0f-e4e58504cc4a",
+              "name": "=Domain",
+              "value": "={{ $('Webhook').item.json.body.Website.replace(/^https?:\\/\\//, '') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -992,
+        368
+      ],
+      "id": "a7f404f7-524f-469b-add9-c0bf1b657baf",
+      "name": "Company Level"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a5f2a623-886a-44eb-8c9f-392561bee05f",
+              "name": "lead_type",
+              "value": "contact",
+              "type": "string"
+            },
+            {
+              "id": "9d6c118d-c8c7-4ee6-be12-50b9a3075711",
+              "name": "first_name",
+              "value": "={{ $json.body['First Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "188f6955-19e4-4a0f-b3c1-51140f0eeef6",
+              "name": "last_name",
+              "value": "={{ $json.body['Last Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "ee1db263-e9b9-46d4-917f-cee95db32454",
+              "name": "email",
+              "value": "={{ $json.body['Business Email'] }}",
+              "type": "string"
+            },
+            {
+              "id": "10081ce8-b791-4c95-886f-e3a6108bfd1f",
+              "name": "linkedin_url",
+              "value": "={{ $json.body['LinkedIn URL'] }}",
+              "type": "string"
+            },
+            {
+              "id": "9c5eddb0-343d-4aca-8c65-d93f1fed786c",
+              "name": "job_title",
+              "value": "={{ $json.body.Title }}",
+              "type": "string"
+            },
+            {
+              "id": "c01255ab-6b83-43e6-8e20-a6ad4110d03e",
+              "name": "company_name",
+              "value": "={{ $json.body['Company Name'] }}",
+              "type": "string"
+            },
+            {
+              "id": "c521ef46-da72-4f1d-886d-f62f45384d90",
+              "name": "company_website",
+              "value": "={{ $json.body.Website }}",
+              "type": "string"
+            },
+            {
+              "id": "58d80278-9002-4416-9ea8-6d58e0db825b",
+              "name": "industry",
+              "value": "={{ $json.body.Industry }}",
+              "type": "string"
+            },
+            {
+              "id": "f9923b50-6841-40f7-aaec-bb7da754cfd2",
+              "name": "employee_count",
+              "value": "={{ $json.body['Employee Count'] }}",
+              "type": "string"
+            },
+            {
+              "id": "b33e1c45-97b1-46dd-abca-28569bfd0ca5",
+              "name": "estimated_revenue",
+              "value": "={{ $json.body['Estimate Revenue'] }}",
+              "type": "string"
+            },
+            {
+              "id": "2b9ea1fd-2069-4bd9-8580-46448d93ddff",
+              "name": "city",
+              "value": "={{ $json.body.City }}",
+              "type": "string"
+            },
+            {
+              "id": "0d4454a7-1814-46f9-b244-0a47a52b3798",
+              "name": "state",
+              "value": "={{ $json.body.State }}",
+              "type": "string"
+            },
+            {
+              "id": "8c01cdf7-558e-4e05-ae1d-e3e963a90b04",
+              "name": "zipcode",
+              "value": "={{ $json.body.Zipcode }}",
+              "type": "string"
+            },
+            {
+              "id": "cc5caa9f-996d-47ca-b3b9-f84ac3f4b1bf",
+              "name": "seen_at",
+              "value": "={{ $json.body['Seen At'] }}",
+              "type": "string"
+            },
+            {
+              "id": "775d4b0c-3d19-4b0b-b5a4-a0a361f70cc3",
+              "name": "referrer",
+              "value": "={{ $json.body.Referrer }}",
+              "type": "string"
+            },
+            {
+              "id": "dc53f7b9-caa1-4f63-ab08-b97d2be6d335",
+              "name": "captured_url",
+              "value": "={{ $json.body['Captured URL'] }}",
+              "type": "string"
+            },
+            {
+              "id": "bc32d3ae-e4ab-4b2b-be19-6b7e06c8e898",
+              "name": "tags",
+              "value": "={{ $json.body.Tags }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -992,
+        -880
+      ],
+      "id": "7c71dd0a-548f-4749-a30d-8af70e0de766",
+      "name": "Contact Level"
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "9dJaWBhcMBS82ody",
+          "mode": "list",
+          "cachedResultName": "RB2B - Contact Leads",
+          "cachedResultUrl": "/projects/TtL60QchGkFsB5NZ/datatables/9dJaWBhcMBS82ody"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "First_name": "={{ $json.first_name }}",
+            "Last_name": "={{ $json.last_name }}",
+            "LinkedIn_URL": "={{ $json.linkedin_url }}",
+            "Email": "={{ $json.email }}",
+            "Title": "={{ $json.job_title }}",
+            "Company_name": "={{ $json.company_name }}",
+            "Website": "={{ $json.company_website }}",
+            "Industry": "={{ $json.industry }}",
+            "Employee_Count": "={{ $json.employee_count }}",
+            "Estimate_revenue": "={{ $json.estimated_revenue }}",
+            "Referrer": "={{ $json.referrer }}",
+            "City": "={{ $json.city }}",
+            "State": "={{ $json.state }}",
+            "Tags": "={{ $json.tags }}",
+            "Zipcode": "={{ $json.zipcode }}",
+            "Seen_at": "={{ $json.seen_at }}",
+            "Captured_URL": "={{ $json.captured_url }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "First_name",
+              "displayName": "First_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Last_name",
+              "displayName": "Last_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "LinkedIn_URL",
+              "displayName": "LinkedIn_URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Company_name",
+              "displayName": "Company_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Website",
+              "displayName": "Website",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Industry",
+              "displayName": "Industry",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Employee_Count",
+              "displayName": "Employee_Count",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Estimate_revenue",
+              "displayName": "Estimate_revenue",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Referrer",
+              "displayName": "Referrer",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "City",
+              "displayName": "City",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "State",
+              "displayName": "State",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Tags",
+              "displayName": "Tags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Zipcode",
+              "displayName": "Zipcode",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Seen_at",
+              "displayName": "Seen_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Captured_URL",
+              "displayName": "Captured_URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        -768,
+        -976
+      ],
+      "id": "bba262e6-79e4-454b-a768-a42207c9821b",
+      "name": "Contact Table"
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "x7eL5oGDi6Wpo5Bq",
+          "mode": "list",
+          "cachedResultName": "RB2B - Company Leads",
+          "cachedResultUrl": "/projects/TtL60QchGkFsB5NZ/datatables/x7eL5oGDi6Wpo5Bq"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "LinkedIn_URL": "={{ $json.linkedin_url }}",
+            "Company_name": "={{ $json.company_name }}",
+            "Website": "={{ $json.company_website }}",
+            "Industry": "={{ $json.industry }}",
+            "Employee_Count": "={{ $json.employee_count }}",
+            "Estimate_revenue": "={{ $json.estimated_revenue }}",
+            "Referrer": "={{ $json.referrer }}",
+            "City": "={{ $json.city }}",
+            "State": "={{ $json.state }}",
+            "Tags": "={{ $json.tags }}",
+            "Zipcode": "={{ $json.zipcode }}",
+            "Seen_at": "={{ $json.seen_at }}",
+            "Captured_URL": "={{ $json.captured_url }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "LinkedIn_URL",
+              "displayName": "LinkedIn_URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Company_name",
+              "displayName": "Company_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Website",
+              "displayName": "Website",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Industry",
+              "displayName": "Industry",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Employee_Count",
+              "displayName": "Employee_Count",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Estimate_revenue",
+              "displayName": "Estimate_revenue",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Referrer",
+              "displayName": "Referrer",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "City",
+              "displayName": "City",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "State",
+              "displayName": "State",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Tags",
+              "displayName": "Tags",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Zipcode",
+              "displayName": "Zipcode",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Seen_at",
+              "displayName": "Seen_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Captured_URL",
+              "displayName": "Captured_URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        -768,
+        464
+      ],
+      "id": "6c017690-460f-4927-8d35-4536e1add069",
+      "name": "Company Table"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "company",
+        "operation": "searchByDomain",
+        "domain": "={{ $json.company_website }}",
+        "returnAll": true,
+        "options": {
+          "properties": [
+            "meeting_status",
+            "hs_lead_status",
+            "first_meeting_held_date",
+            "meeting_requested_date"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [
+        -544,
+        272
+      ],
+      "id": "1df24dcf-3fd9-490e-8ed5-145eba20a6eb",
+      "name": "Company Search",
+      "alwaysOutputData": true,
+      "credentials": {
+        "hubspotOAuth2Api": {
+          "id": "yoHxtj0lYgGq4lMA",
+          "name": "HubSpot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "operation": "search",
+        "returnAll": true,
+        "filterGroupsUi": {
+          "filterGroupsValues": [
+            {
+              "filtersUi": {
+                "filterValues": [
+                  {
+                    "propertyName": "email|string",
+                    "value": "={{ $json.email }}"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {
+          "properties": [
+            "firstname",
+            "lastname",
+            "email",
+            "hs_lead_status",
+            "contact_deanonymized",
+            "deanonymizer",
+            "company"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [
+        -544,
+        -784
+      ],
+      "id": "16854381-766b-47ff-b066-260e2f1740b0",
+      "name": "Contact Search ",
+      "alwaysOutputData": true,
+      "credentials": {
+        "hubspotOAuth2Api": {
+          "id": "yoHxtj0lYgGq4lMA",
+          "name": "HubSpot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "e1cd579b-ce5c-47c1-84c7-ef66e90b675d",
+              "leftValue": "={{ $json.id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -320,
+        -784
+      ],
+      "id": "c88ff97c-62bc-4efe-b526-1114acc2d624",
+      "name": "Contact Found ?"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "e1cd579b-ce5c-47c1-84c7-ef66e90b675d",
+              "leftValue": "={{ $json.companyId }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -320,
+        272
+      ],
+      "id": "07b62a55-e74b-4537-8bac-bb3627216dc7",
+      "name": "Company Found ?"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "email": "={{ $json.properties.email }}",
+        "additionalFields": {
+          "customPropertiesUi": {
+            "customPropertiesValues": [
+              {
+                "property": "contact_deanonymized",
+                "value": "true"
+              },
+              {
+                "property": "deanonymizer",
+                "value": "RB2B"
+              }
+            ]
+          }
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [
+        -96,
+        -1072
+      ],
+      "id": "638c7509-2d92-4110-9061-76ab4545fdf6",
+      "name": "Update Contact",
+      "credentials": {
+        "hubspotOAuth2Api": {
+          "id": "yoHxtj0lYgGq4lMA",
+          "name": "HubSpot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "company",
+        "operation": "searchByDomain",
+        "domain": "={{ $json.properties.website.value }}",
+        "returnAll": true,
+        "options": {
+          "properties": [
+            "hs_lead_status",
+            "meeting_status"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [
+        128,
+        -496
+      ],
+      "id": "c1685149-4456-4643-92fc-6d56d714f129",
+      "name": "Search Company",
+      "credentials": {
+        "hubspotOAuth2Api": {
+          "id": "yoHxtj0lYgGq4lMA",
+          "name": "HubSpot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "company",
+        "operation": "update",
+        "companyId": {
+          "__rl": true,
+          "value": "={{ $json.companyId }}",
+          "mode": "id"
+        },
+        "updateFields": {
+          "customPropertiesUi": {
+            "customPropertiesValues": [
+              {
+                "property": "company_deanonymized",
+                "value": "true"
+              },
+              {
+                "property": "deanonymizer",
+                "value": "RB2B"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [
+        -96,
+        176
+      ],
+      "id": "aec53e14-5d51-4f4a-8af2-2aae5cf5c136",
+      "name": "Update Company",
+      "credentials": {
+        "hubspotOAuth2Api": {
+          "id": "yoHxtj0lYgGq4lMA",
+          "name": "HubSpot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "company",
+        "name": "={{ $('Company Level').item.json.company_name }}",
+        "additionalFields": {
+          "companyOwner": 159641252,
+          "customPropertiesUi": {
+            "customPropertiesValues": [
+              {
+                "property": "company_deanonymized",
+                "value": "true"
+              },
+              {
+                "property": "deanonymizer",
+                "value": "RB2B"
+              }
+            ]
+          },
+          "leadStatus": "Interested - Send More info",
+          "websiteUrl": "={{ $('Company Level').item.json.company_website }}"
+        }
+      },
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [
+        -96,
+        368
+      ],
+      "id": "cd3b2e42-7916-456f-a72c-7982a5127cc5",
+      "name": "Create Company",
+      "credentials": {
+        "hubspotOAuth2Api": {
+          "id": "yoHxtj0lYgGq4lMA",
+          "name": "HubSpot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "{{ZAPIER_WEBHOOK_URL}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        128,
+        368
+      ],
+      "id": "4b4f5497-dc3e-42ec-a1bb-dc6e561d88b5",
+      "name": "Clay"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "company",
+        "operation": "update",
+        "companyId": {
+          "__rl": true,
+          "value": "={{ $json.companyId }}",
+          "mode": "id"
+        },
+        "updateFields": {
+          "customPropertiesUi": {
+            "customPropertiesValues": [
+              {
+                "property": "company_deanonymized",
+                "value": "true"
+              },
+              {
+                "property": "deanonymizer",
+                "value": "RB2B"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [
+        352,
+        -1072
+      ],
+      "id": "4b7dd381-32af-4fea-ae70-5c3a776ef57a",
+      "name": "Update a company",
+      "credentials": {
+        "hubspotOAuth2Api": {
+          "id": "yoHxtj0lYgGq4lMA",
+          "name": "HubSpot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Search Company 1').item.json.properties.meeting_status.value }}",
+                    "rightValue": "Meeting Held",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "e860271a-e4ca-4574-8928-f19b31a908b2"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Meeting Held"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "b4f3fb60-3598-4ce7-9086-5d3e044fc06e",
+                    "leftValue": "={{ $('Search Company 1').item.json.properties.meeting_status.value }}",
+                    "rightValue": "Meeting Held",
+                    "operator": {
+                      "type": "string",
+                      "operation": "notEquals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Meeting Not Held"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        576,
+        -1072
+      ],
+      "id": "8069c2b3-76c1-46e4-8c46-a2d3e0e7891b",
+      "name": "Meeting Status"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "117a5618-3995-48c3-be1e-f41264c7dc46",
+              "leftValue": "={{ $json.id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1024,
+        -1264
+      ],
+      "id": "ada95e1b-43b3-4058-b123-f6c1cb2aa9ac",
+      "name": "If1"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "company",
+        "operation": "searchByDomain",
+        "domain": "={{ $('Contact Level').item.json.company_website }}",
+        "returnAll": true,
+        "options": {
+          "properties": [
+            "hs_lead_status",
+            "meeting_status"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [
+        128,
+        -1072
+      ],
+      "id": "4047cdd3-a747-4ab6-8430-3c7042913066",
+      "name": "Search Company 1",
+      "credentials": {
+        "hubspotOAuth2Api": {
+          "id": "yoHxtj0lYgGq4lMA",
+          "name": "HubSpot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "deal",
+        "operation": "search",
+        "returnAll": true,
+        "filterGroupsUi": {
+          "filterGroupsValues": [
+            {
+              "filtersUi": {
+                "filterValues": [
+                  {
+                    "propertyName": "associated_companies_website",
+                    "value": "={{ $('Contact Level').item.json.company_website.replace(/^https?:\\/\\//, '') }}"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {
+          "properties": [
+            "dealstage",
+            "amount"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [
+        800,
+        -1264
+      ],
+      "id": "177d673d-86cc-40a0-8e32-030bc80fbcf9",
+      "name": "Search for deals",
+      "alwaysOutputData": true,
+      "credentials": {
+        "hubspotOAuth2Api": {
+          "id": "yoHxtj0lYgGq4lMA",
+          "name": "HubSpot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "ed1cbe14-cf66-4277-8acf-b1eff1b0e7d4",
+              "leftValue": "={{ $('Search Company 1').item.json.properties.meeting_status.value }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        800,
+        -976
+      ],
+      "id": "5ec46621-4fb0-42d9-b07f-49fbce6c1c2e",
+      "name": "If2"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Search Company').item.json.properties.meeting_status.value }}",
+                    "rightValue": "Meeting Held",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "e860271a-e4ca-4574-8928-f19b31a908b2"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Meeting Held"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "b4f3fb60-3598-4ce7-9086-5d3e044fc06e",
+                    "leftValue": "={{ $('Search Company').item.json.properties.meeting_status.value }}",
+                    "rightValue": "Meeting Held",
+                    "operator": {
+                      "type": "string",
+                      "operation": "notEquals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Meeting Not Held"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        576,
+        -496
+      ],
+      "id": "3010fc3c-c37c-4fcf-8484-a2898f3c01e7",
+      "name": "Meeting Status1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "117a5618-3995-48c3-be1e-f41264c7dc46",
+              "leftValue": "={{ $json.id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1024,
+        -688
+      ],
+      "id": "62df4687-c73a-42db-87a1-a38cbe4aeaed",
+      "name": "If3",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "deal",
+        "operation": "search",
+        "returnAll": true,
+        "filterGroupsUi": {
+          "filterGroupsValues": [
+            {
+              "filtersUi": {
+                "filterValues": [
+                  {
+                    "propertyName": "associated_companies_website",
+                    "operator": "CONTAINS_TOKEN",
+                    "value": "={{ $('Contact Level').item.json.company_website.replace(/^https?:\\/\\//, '') }}"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [
+        800,
+        -688
+      ],
+      "id": "aa505081-0710-49f8-afb9-efd81d30d59b",
+      "name": "Search for deals1",
+      "alwaysOutputData": true,
+      "credentials": {
+        "hubspotOAuth2Api": {
+          "id": "yoHxtj0lYgGq4lMA",
+          "name": "HubSpot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "ed1cbe14-cf66-4277-8acf-b1eff1b0e7d4",
+              "leftValue": "={{ $('Search Company 1').item.json.properties.meeting_status.value }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        800,
+        -400
+      ],
+      "id": "f0a02a48-dcbe-4c5c-a7f5-d81a43c7ba1e",
+      "name": "If4"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "fcea7d97-7563-4167-9cab-a2735883bcae",
+              "leftValue": "={{ $('Search for deals1').item.json.properties.dealstage }}",
+              "rightValue": "16552260",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "35c09c76-9b70-4952-a3f1-c9873588e5cb",
+              "leftValue": "={{ $('Search for deals1').item.json.properties.dealstage }}",
+              "rightValue": "206301269",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "94044597-9582-4183-8c4e-9fa3cbd485c3",
+              "leftValue": "={{ $('Search for deals1').item.json.properties.dealstage }}",
+              "rightValue": "206299650",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        1248,
+        -880
+      ],
+      "id": "2f54fdb0-8039-4f99-8296-42f6086a2847",
+      "name": "Filter"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "engagement",
+        "type": "task",
+        "dueDate": "={{ $('Contact Level').item.json.seen_at }}",
+        "metadata": {},
+        "additionalFields": {
+          "associations": {
+            "companyIds": ""
+          }
+        }
+      },
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [
+        1472,
+        -880
+      ],
+      "id": "7f1fa632-a8bd-4459-97f1-1cc323fffff9",
+      "name": "Create an engagement1",
+      "credentials": {
+        "hubspotOAuth2Api": {
+          "id": "yoHxtj0lYgGq4lMA",
+          "name": "HubSpot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "266bd847-0ea1-4bc3-8152-39f54c840dc3",
+              "leftValue": "={{ $json.properties.dealstage }}",
+              "rightValue": "16552260",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "55e4a2d1-49c4-46a7-b472-04b3280873be",
+              "leftValue": "={{ $json.properties.dealstage }}",
+              "rightValue": "206301269",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "62d638f2-7005-4936-b3e1-9c69035062e9",
+              "leftValue": "={{ $json.properties.dealstage }}",
+              "rightValue": "206299650",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        1248,
+        -1360
+      ],
+      "id": "07d35117-f1d3-4ec6-bfd2-a0c1a67a2d3f",
+      "name": "Filter1"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "engagement",
+        "type": "task",
+        "dueDate": "={{ $('Contact Level').item.json.seen_at }}",
+        "metadata": {
+          "body": "New task"
+        },
+        "additionalFields": {
+          "associations": {
+            "companyIds": "={{ $('Update a company').item.json.companyId }}"
+          }
+        }
+      },
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [
+        1248,
+        -1072
+      ],
+      "id": "539d3cf3-9f2a-490d-96f9-de10e5130ff6",
+      "name": "Create an engagement3",
+      "credentials": {
+        "hubspotOAuth2Api": {
+          "id": "yoHxtj0lYgGq4lMA",
+          "name": "HubSpot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "engagement",
+        "type": "task",
+        "dueDate": "={{ $('Contact Level').item.json.seen_at }}",
+        "metadata": {},
+        "additionalFields": {
+          "associations": {
+            "companyIds": "={{ $('Search Company 1').item.json.companyId }}"
+          }
+        }
+      },
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [
+        1024,
+        -1072
+      ],
+      "id": "3400c93c-7155-4c74-84e1-49f024ba7917",
+      "name": "Create an engagement",
+      "credentials": {
+        "hubspotOAuth2Api": {
+          "id": "yoHxtj0lYgGq4lMA",
+          "name": "HubSpot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "email": "={{ $('Contact Level').item.json.email }}",
+        "additionalFields": {
+          "companyName": "={{ $('Contact Level').item.json.company_name }}",
+          "customPropertiesUi": {
+            "customPropertiesValues": [
+              {
+                "property": "contact_deanonymized",
+                "value": "true"
+              },
+              {
+                "property": "deanonymizer",
+                "value": "RB2B"
+              }
+            ]
+          },
+          "firstName": "={{ $('Contact Level').item.json.first_name }}",
+          "industry": "={{ $('Contact Level').item.json.industry }}",
+          "jobTitle": "={{ $('Contact Level').item.json.job_title }}",
+          "lastName": "={{ $('Contact Level').item.json.last_name }}",
+          "linkedinUrl": "={{ $('Contact Level').item.json.linkedin_url }}",
+          "postalCode": "={{ $('Contact Level').item.json.zipcode }}",
+          "websiteUrl": "={{ $('Contact Level').item.json.company_website }}"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [
+        -96,
+        -496
+      ],
+      "id": "b43a2a21-b498-4880-99f8-df55557b638e",
+      "name": "Create or update a contact",
+      "credentials": {
+        "hubspotOAuth2Api": {
+          "id": "yoHxtj0lYgGq4lMA",
+          "name": "HubSpot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "company",
+        "operation": "update",
+        "companyId": {
+          "__rl": true,
+          "value": "=",
+          "mode": "id"
+        },
+        "updateFields": {
+          "customPropertiesUi": {
+            "customPropertiesValues": [
+              {
+                "property": "company_deanonymized",
+                "value": "true"
+              },
+              {
+                "property": "deanonymizer",
+                "value": "RB2B"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [
+        352,
+        -496
+      ],
+      "id": "a2fa4a97-f1bc-4a73-880f-4a464377f4a9",
+      "name": "Update a company1",
+      "credentials": {
+        "hubspotOAuth2Api": {
+          "id": "yoHxtj0lYgGq4lMA",
+          "name": "HubSpot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "engagement",
+        "type": "task",
+        "dueDate": "={{ $('Contact Level').item.json.seen_at }}",
+        "metadata": {
+          "body": "New task"
+        },
+        "additionalFields": {
+          "associations": {}
+        }
+      },
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [
+        1248,
+        -592
+      ],
+      "id": "e9d20dbf-7997-4d98-a882-7e24ef215206",
+      "name": "Create an engagement4",
+      "credentials": {
+        "hubspotOAuth2Api": {
+          "id": "yoHxtj0lYgGq4lMA",
+          "name": "HubSpot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "{{ZAPIER_WEBHOOK_URL}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1024,
+        -304
+      ],
+      "id": "ccaee55b-02eb-441f-98d6-a42147aff748",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "engagement",
+        "type": "task",
+        "dueDate": "={{ $('Contact Level').item.json.seen_at }}",
+        "metadata": {
+          "body": "Test"
+        },
+        "additionalFields": {
+          "associations": {
+            "companyIds": ""
+          }
+        }
+      },
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [
+        1024,
+        -496
+      ],
+      "id": "83d48746-5c5e-420c-968c-1634591f3f1b",
+      "name": "Create an engagement5",
+      "credentials": {
+        "hubspotOAuth2Api": {
+          "id": "yoHxtj0lYgGq4lMA",
+          "name": "HubSpot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Company Search').item.json.properties.first_meeting_held_date.value }}",
+                    "rightValue": "Meeting Held",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    },
+                    "id": "e860271a-e4ca-4574-8928-f19b31a908b2"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Meeting Held"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "b4f3fb60-3598-4ce7-9086-5d3e044fc06e",
+                    "leftValue": "={{ $('Company Search').item.json.properties.first_meeting_held_date.value }}",
+                    "rightValue": "Meeting Held",
+                    "operator": {
+                      "type": "string",
+                      "operation": "notExists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Meeting Not Held"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        128,
+        176
+      ],
+      "id": "940aab7e-db43-4e2a-bb6b-3f9594617797",
+      "name": "Meeting Status2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "117a5618-3995-48c3-be1e-f41264c7dc46",
+              "leftValue": "={{ $json.id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        576,
+        -16
+      ],
+      "id": "8198d7fb-28f9-4540-accd-a0ffbe19092c",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "deal",
+        "operation": "search",
+        "returnAll": true,
+        "filterGroupsUi": {
+          "filterGroupsValues": [
+            {
+              "filtersUi": {
+                "filterValues": [
+                  {
+                    "propertyName": "associated_companies_website",
+                    "value": "={{ $('Company Level').item.json.Domain }}"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "additionalFields": {
+          "properties": [
+            "dealstage",
+            "amount"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [
+        352,
+        -16
+      ],
+      "id": "768175b4-fb71-4a5f-8698-6add2ff7136d",
+      "name": "Search for deals2",
+      "alwaysOutputData": true,
+      "credentials": {
+        "hubspotOAuth2Api": {
+          "id": "yoHxtj0lYgGq4lMA",
+          "name": "HubSpot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "ed1cbe14-cf66-4277-8acf-b1eff1b0e7d4",
+              "leftValue": "={{ $('Company Search').item.json.properties.meeting_status.value }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        352,
+        272
+      ],
+      "id": "4e066723-d2c9-4cad-8723-47f22df722a2",
+      "name": "If5"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "fcea7d97-7563-4167-9cab-a2735883bcae",
+              "leftValue": "={{ $json.properties.dealstage }}",
+              "rightValue": "16552260",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "1d15e80b-6899-4905-981c-6fd7ad0c071c",
+              "leftValue": "={{ $json.properties.dealstage }}",
+              "rightValue": "206301269",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "ba7d0e62-de2a-414d-ba40-5a3a66899a5a",
+              "leftValue": "={{ $json.properties.dealstage }}",
+              "rightValue": "206299650",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        800,
+        -112
+      ],
+      "id": "fc144a4a-dc57-4b33-9446-b414017445e1",
+      "name": "Filter2"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "engagement",
+        "type": "task",
+        "dueDate": "={{ $('Lead Categorization').item.json.body['Seen At'] }}",
+        "metadata": {
+          "body": "Test"
+        },
+        "additionalFields": {
+          "associations": {
+            "companyIds": "={{ $('Company Search').item.json.companyId }}"
+          }
+        }
+      },
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [
+        1024,
+        -112
+      ],
+      "id": "373bb05c-e0c9-4baa-9d8d-784f1e50952e",
+      "name": "Create an engagement6",
+      "credentials": {
+        "hubspotOAuth2Api": {
+          "id": "yoHxtj0lYgGq4lMA",
+          "name": "HubSpot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "engagement",
+        "type": "task",
+        "dueDate": "={{ $('Company Level').item.json.seen_at }}",
+        "metadata": {
+          "body": "Test"
+        },
+        "additionalFields": {
+          "associations": {
+            "companyIds": "={{ $('Company Search').item.json.companyId }}"
+          }
+        }
+      },
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [
+        800,
+        80
+      ],
+      "id": "11da8132-6d61-4a2a-a8e7-c78b957489ca",
+      "name": "Create an engagement7",
+      "credentials": {
+        "hubspotOAuth2Api": {
+          "id": "yoHxtj0lYgGq4lMA",
+          "name": "HubSpot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "{{ZAPIER_WEBHOOK_URL}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        576,
+        368
+      ],
+      "id": "651c44d8-fcac-45f4-9c76-aaa94e5b042e",
+      "name": "HTTP Request2"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "engagement",
+        "type": "task",
+        "dueDate": "={{ $('Lead Categorization').item.json.body['Seen At'] }}",
+        "metadata": {
+          "body": "Test"
+        },
+        "additionalFields": {
+          "associations": {
+            "companyIds": "={{ $('Company Search').item.json.companyId }}"
+          }
+        }
+      },
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [
+        576,
+        176
+      ],
+      "id": "195a8706-f7a9-4251-8910-aff2bd03d630",
+      "name": "Create an engagement8",
+      "credentials": {
+        "hubspotOAuth2Api": {
+          "id": "yoHxtj0lYgGq4lMA",
+          "name": "HubSpot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "{{ZAPIER_WEBHOOK_URL}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1024,
+        -880
+      ],
+      "id": "ab722dbd-c40d-410b-aa66-15960d908759",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "engagement",
+        "type": "task",
+        "dueDate": "={{ $('Webhook').item.json.body['Seen At'] }}",
+        "metadata": {
+          "body": "New task"
+        },
+        "additionalFields": {
+          "associations": {
+            "companyIds": "={{ $('Update a company').item.json.companyId }}"
+          }
+        }
+      },
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [
+        1472,
+        -1360
+      ],
+      "id": "636c0e2f-ad81-451d-a225-4d4cae0654ca",
+      "name": "Create an engagement2",
+      "credentials": {
+        "hubspotOAuth2Api": {
+          "id": "yoHxtj0lYgGq4lMA",
+          "name": "HubSpot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "10f1c1fc-08ef-4cc1-8354-b95b95f367cb",
+              "leftValue": "={{ $json.employee_count }}",
+              "rightValue": "201-500",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "ab9e6233-067a-436d-9540-3b59bf14d92b",
+              "leftValue": "={{ $json.employee_count }}",
+              "rightValue": "501-1000",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "0d4a87ff-dc1d-4e39-a5f5-ad14cd3e75d2",
+              "leftValue": "={{ $json.employee_count }}",
+              "rightValue": "1001-5000",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "fa669b81-9f62-42a4-9deb-43309f34ccd2",
+              "leftValue": "={{ $json.employee_count }}",
+              "rightValue": "=5001+",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        -768,
+        -784
+      ],
+      "id": "a8a0b296-246c-4fbd-9c6b-eb3e046ec756",
+      "name": "Filter3"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "10f1c1fc-08ef-4cc1-8354-b95b95f367cb",
+              "leftValue": "={{ $json.employee_count }}",
+              "rightValue": "201-500",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "ab9e6233-067a-436d-9540-3b59bf14d92b",
+              "leftValue": "={{ $json.employee_count }}",
+              "rightValue": "501-1000",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "0d4a87ff-dc1d-4e39-a5f5-ad14cd3e75d2",
+              "leftValue": "={{ $json.employee_count }}",
+              "rightValue": "1001-5000",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "fa669b81-9f62-42a4-9deb-43309f34ccd2",
+              "leftValue": "={{ $json.employee_count }}",
+              "rightValue": "=above 5000",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        -768,
+        272
+      ],
+      "id": "bb4ad9f3-b15c-4d1b-b26c-f6f6790a9692",
+      "name": "Filter4",
+      "alwaysOutputData": false
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Lead Categorization",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Lead Categorization": {
+      "main": [
+        [
+          {
+            "node": "Contact Level",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Company Level",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Company Level": {
+      "main": [
+        [
+          {
+            "node": "Company Table",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Filter4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Contact Level": {
+      "main": [
+        [
+          {
+            "node": "Contact Table",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Filter3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Contact Table": {
+      "main": [
+        []
+      ]
+    },
+    "Contact Search ": {
+      "main": [
+        [
+          {
+            "node": "Contact Found ?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Company Search": {
+      "main": [
+        [
+          {
+            "node": "Company Found ?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Contact Found ?": {
+      "main": [
+        [
+          {
+            "node": "Update Contact",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create or update a contact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Company Found ?": {
+      "main": [
+        [
+          {
+            "node": "Update Company",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create Company",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Company": {
+      "main": [
+        [
+          {
+            "node": "Clay",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clay": {
+      "main": [
+        []
+      ]
+    },
+    "Update Contact": {
+      "main": [
+        [
+          {
+            "node": "Search Company 1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update a company": {
+      "main": [
+        [
+          {
+            "node": "Meeting Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Meeting Status": {
+      "main": [
+        [
+          {
+            "node": "Search for deals",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search Company": {
+      "main": [
+        [
+          {
+            "node": "Update a company1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search Company 1": {
+      "main": [
+        [
+          {
+            "node": "Update a company",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search for deals": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Company": {
+      "main": [
+        [
+          {
+            "node": "Meeting Status2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Meeting Status1": {
+      "main": [
+        [
+          {
+            "node": "Search for deals1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search for deals1": {
+      "main": [
+        [
+          {
+            "node": "If3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If3": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create an engagement4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Create an engagement1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "Filter1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create an engagement3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter1": {
+      "main": [
+        [
+          {
+            "node": "Create an engagement2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If2": {
+      "main": [
+        [
+          {
+            "node": "Create an engagement",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create or update a contact": {
+      "main": [
+        [
+          {
+            "node": "Search Company",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update a company1": {
+      "main": [
+        [
+          {
+            "node": "Meeting Status1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If4": {
+      "main": [
+        [
+          {
+            "node": "Create an engagement5",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Meeting Status2": {
+      "main": [
+        [
+          {
+            "node": "Search for deals2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Filter2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create an engagement7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search for deals2": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If5": {
+      "main": [
+        [
+          {
+            "node": "Create an engagement8",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter2": {
+      "main": [
+        [
+          {
+            "node": "Create an engagement6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter3": {
+      "main": [
+        [
+          {
+            "node": "Contact Search ",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter4": {
+      "main": [
+        [
+          {
+            "node": "Company Search",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "tags": []
+}
